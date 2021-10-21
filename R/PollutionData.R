@@ -1,5 +1,15 @@
 
 PollutionData =   
+#' Title
+#'
+#' @field responses list. 
+#' @field url character. 
+#' @field countries list. 
+#'
+#' @return
+#' @export
+#'
+#' @examples
   setRefClass(
     "PollutionData",
     fields = list(
