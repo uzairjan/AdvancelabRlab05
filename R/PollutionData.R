@@ -1,5 +1,4 @@
 
-PollutionData =   
 #' Title
 #'
 #' @field responses list. 
@@ -10,6 +9,7 @@ PollutionData =
 #' @export
 #'
 #' @examples
+PollutionData =   
   setRefClass(
     "PollutionData",
     fields = list(
