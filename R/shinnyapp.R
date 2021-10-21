@@ -1,6 +1,15 @@
 library(dplyr)
 
+
 shinnyapp<-
+#' Title
+#'
+#' @field server_components list. 
+#'
+#' @return
+#' @export
+#'
+#' @examples
   setRefClass(
     "shinnyapp",
     fields = list(
