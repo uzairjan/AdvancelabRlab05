@@ -2,14 +2,15 @@ library(dplyr)
 
 
 shinnyapp<-
-#' Title
+#' Title shinny application for world population data
 #'
 #' @field server_components list. 
 #'
-#' @return
-#' @export
-#'
-#' @examples
+#' @import dplyr
+#' @import methods
+#' 
+#' @export shinnyapp
+#' @exportClass shinnyapp
   setRefClass(
     "shinnyapp",
     fields = list(
@@ -21,16 +22,17 @@ shinnyapp<-
           "Pakistan",
           "India",
           "Afghanistan",
-          "Sweden"
+          "Sweden",
+          "Bangladesh"
         )
         server_components<<-list()
-        apii <- MyShiny::Worldwide_Pollution$new(countries)
+        apii <- ShinyApp::PollutionData$new(countries)
         server_components$ui <<- 
           shiny::navbarPage("Air Pollution",
-                            shiny::tabPanel("Component 1",
+                            shiny::tabPanel("Plot section",
                                             shiny::plotOutput("plot_1")),
                             
-                            shiny::tabPanel("Component 2",
+                            shiny::tabPanel("Interactive Map Section",
                                             shiny::fluidPage(
                                               
                                               shiny::titlePanel("Concentration of PM25"),
@@ -39,27 +41,26 @@ shinnyapp<-
                                                 shiny::column(2,
                                                               shiny::radioButtons(inputId = "radio", 
                                                                                   label = "Select the country you wish to visualize:", 
-                                                                                  choices = c("Pakistan", "India", "Afghanistan", "Sweden"), 
+                                                                                  choices = c("Pakistan", "India", "Afghanistan", "Sweden","Bangladesh"), 
                                                                                   inline = FALSE,
                                                                                   width = NULL)
                                                 ),
                                                 shiny::hr(),
                                                 shiny::column(10, 
-                                                              shiny::fluidRow(plotly::plotlyOutput("plot_2", height = "500px")))))))   
+                                                              shiny::fluidRow(plotly::plotlyOutput("plot_2", height = "600px")))))))   
         
         server_components$server<<- function(input, output){
           api = apii
-          print(api)
           Sys.setenv(
             'MAPBOX_TOKEN' = 
-              'pk.eyJ1Ijoic3RldG84MjAiLCJhIjoiY2ptYm1hNGoxMDVzODNxcDh5YWYwdWIyeiJ9.vqmnBQELpRxT2klgrWJvuQ')
+              'pk.eyJ1IjoidXphaXJraGFuNjg3IiwiYSI6ImNrdXlnbnltbTJvcnUydnF2aTRpbjN3bGQifQ.bQppT8NXi1ChVyqX10z0vQ')
           
           output$plot_1 = shiny::renderPlot({
             facets = c(
               "country",
               "value_pm5"
             )
-            plot_pm25_means(api$get_facets_all_responses(facets)) 
+            plot_pm25_means(api$getAllSectionResponse(facets)) 
           })
           
           output$plot_2 = plotly::renderPlotly({
@@ -70,10 +71,9 @@ shinnyapp<-
               "category_pm25",
               "data_location_latitude",
               "data_location_longitude")
-            print(facet_vector)
             
-            df<-api$get_only_faced_data(api$responses[[input$radio]], facet_vector)
-            if(input$radio=="Italy") zoom <- 4.1
+            df<-api$getOnlySectionData(api$response_list[[input$radio]], facet_vector)
+            if(input$radio=="Pakistan") zoom <- 4.1
             else if(input$radio=="Sweden") zoom <- 3
             else zoom <- 5
             p <- plotly::plot_mapbox(mode = "scattermapbox") %>%
@@ -87,7 +87,7 @@ shinnyapp<-
               plotly::layout(
                 plot_bgcolor = '#191A1A', paper_bgcolor = '#191A1A',
                 mapbox = list(style = 'light',
-                              scope = "europe",
+                              scope = "asia",
                               zoom = zoom,
                               center = list(lat = mean(as.numeric(df$data_location_latitude)),
                                             lon = mean(as.numeric(df$data_location_longitude)))),

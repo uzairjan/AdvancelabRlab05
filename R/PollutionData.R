@@ -1,94 +1,103 @@
-
-#' Title
-#'
-#' @field responses list. 
-#' @field url character. 
-#' @field countries list. 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-PollutionData =   
+  
+  #' Pollution data
+  #'
+  #' @field response_list list. 
+  #' @field url character. 
+  #' @field countries list. 
+  #' @import methods
+  #' @export PollutionData
+  #' @exportClass PollutionData 
+  #' @examples PollutionData
+PollutionData = 
   setRefClass(
     "PollutionData",
     fields = list(
-      responses = "list",
-      url = "character",
+      response_list = "list",
+      url ="character",
       countries = "list"
     ),
     methods = list(
-      initialize = function(listCountries=list("Sweden")){
-        if(!is.list(listCountries) | any(!unlist(lapply(listCountries, is.character))))
-          stop("The input is not a list!")
-        supported_countries = list(
+      initialize = function(listCountries =list("Sweden")){
+        if(!is.list(listCountries) | any(!unlist(lapply(listCountries, is.character)))){
+          stop("list of countries is not a list")
+        }
+        countriesSupported = list(
           "Pakistan",
           "India",
           "Afghanistan",
-          "Sweden"
+          "Sweden",
+          "Bangladesh"
         )
-        if(any(!(listCountries %in% supported_countries)))
-          stop("No correct input")
-        if(length(listCountries)==0)
-          stop("listCountries parameter cannot be empty!")
-        
+        if(any(!(listCountries %in% countriesSupported))){
+          stop("Provided country is supported")
+        }
+        if(length(listCountries) == 0){
+          stop("Please provide a country")
+        }
         
         countries <<- listCountries
+        
         url <<- "https://public.opendatasoft.com/api/records/1.0/search/?dataset=worldwide-pollution"
-        responses <<- get_all_country_responses()
+        response_list <<- getAllCountriesList()
+        
       },
-      
-      get_country_data = function(country, facets=c()){
-        response = jsonlite::fromJSON(get_req_url(get_req_part(facets,"facet"), get_req_query("refine.country", country), get_req_query("rows", "10000")))
+      getCountryData = function(country, facets=c()){
+        response = jsonlite::fromJSON(getReqUrl(getReqPart(facets,"facet"), getReqQuery("refine.country", country), getReqQuery("rows", "10000")))
         return(response)
       },
-      
-      get_all_country_responses = function(){
-        ress = list()
-        for (country in countries) {
-          cat(country, "request sent..." , sep = " ", "\n")
-          res = jsonlite::fromJSON(get_req_url(get_req_query("refine.country", country), get_req_query("rows", "10000")))
-          ress[[country]]=res
-          cat(country, "responded!" , sep = " ", "\n")
+      getAllCountriesList = function(){
+        ls = list()
+        for(country in countries){
+          cat(country, "sending request ...", sep = " ", "\n")
+          resp = jsonlite::fromJSON(getReqUrl(getReqQuery("refine.country",country), getReqQuery("rows","1000")))
+          ls[[country]] = resp
+          cat(country, "responded!", sep = " ", "\n")
         }
-        return(ress)
+        return(ls)
       },
-      
-      get_req_query = function(key,val){
-        return(paste(list("&",key,"=",gsub(" ", "%20", val)), collapse = ""))
+      getReqQuery = function(key, val){
+        query = paste(list("&", key, "=", gsub(" ", "%20", val)), collapse = "")
+        print(query)
+        return(query)
       },
-      
-      get_req_part = function(facet_list, key){
-        return(paste(lapply(facet_list, FUN=get_req_query, key=key), collapse=""))
+      getReqPart = function(secttionList, key){
+        return(paste(lapply(secttionList, FUN=getReqQuery, key=key), collapse=""))
       },
-      
-      get_req_url = function(...){
-        elements = list(...)
-        return(paste(c(url, elements), collapse=""))
+      getReqUrl = function(...){
+        ls = list(...)
+        return(paste(c(url,ls), collapse = ""))
       },
-      
-      get_only_faced_data = function(response,facet_vector){
-        if(length(facet_vector)==0)
-          stop("facet_vector cannot be empty!!!")
-        return(response$records$fields[,facet_vector])
-      },
-      
-      get_facets_all_responses = function(facet_vector){
-        if(length(facet_vector)==0)
-          stop("facet_vector cannot be empty!!!")
-        if(!(is.vector(facet_vector) && is.character(facet_vector)))
-          stop("facet_vector should be character vector!!!")
-        d=NA
-        counter=1
-        for (res in responses) {
-          if(counter==1)
-            d=get_only_faced_data(res, facet_vector) 
-          else
-            d=rbind(d, get_only_faced_data(res, facet_vector))
-          counter=counter+1
+      getOnlySectionData = function(response,sectionVector){
+        if(length(sectionVector)==0){
+          stop("secton vector cannot be empty!!!")
         }
-        return(d)
+        return(response$records$fields[,sectionVector])
+      },
+      getOnlySectionData = function(response, sectionVector){
+        if(length(sectionVector) == 0){
+          stop("Section Vector cannot be empty")
+        }
+        return(response$records$fields[,sectionVector])
+      },
+      getAllSectionResponse = function(sectionVector){
+        if(length(sectionVector) == 0){
+          stop("Section vector can not be empty")
+        }
+        if(!(is.vector(sectionVector) && is.character(sectionVector))){
+          stop("provided section vector should be of character type")
+        }
+        res = NA
+        i = 1
+        for(resp in response_list){
+          if(i == 1){
+            res = getOnlySectionData(resp, sectionVector)
+          }else{
+            res = rbind(res, getOnlySectionData(resp, sectionVector))
+          }
+          i = i+1
+        }
+        return(res)
       }
       
-    )                        
+    )
   )

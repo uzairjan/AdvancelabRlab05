@@ -1,17 +1,32 @@
-# shinnyapp package
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# shinnyapp
 
 <!-- badges: start -->
 [![Travis build status](https://travis-ci.com/uzairjan/AdvancelabRlab05.svg?branch=main)](https://travis-ci.com/uzairjan/AdvancelabRlab05)
 <!-- badges: end -->
 
-The goal of package is to create a shiny app which will display country air pollution ...
+The goal of shinnyapp is to ...
 
 ## Installation
 
 You can install the released version of shinnyapp from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
-install.packages("PollutionData")
+install.packages("shinnyapp")
 ```
 
 And the development version from [GitHub](https://github.com/) with:
@@ -25,7 +40,7 @@ devtools::install_github("uzairjan/AdvancelabRlab05")
 This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
-library(PollutionData)
+library(shinnyapp)
 ## basic example code
 ```
 

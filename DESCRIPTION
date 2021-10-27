@@ -1,11 +1,11 @@
-Package: MyShiny
+Package: PollutionData
 Type: Package
-Title: My Shiny
+Title: PollutionData
 Version: 0.1.0
-Author: group15
-Maintainer: The package maintainers <steto820@student.liu.se>, <mimte666@student.liu.se>, <andst745@student.liu.se>
-Description: This package uses the API of worldwide pollution from the opendatasoft.com for four different countries(Turkey,Italy,Greece,Sweden). It contains two functionallities.The first one compares the value pm5 for every country and represents the results with a bar chart in a Shiny application. With the second function,user can choose a country and the output is the location of the observations in this country showed by a map in Shiny application. 
-License: MIT+ file LICENSE
+Author: group25
+Maintainer: The package maintainers <muhammaduzair751@gmail.com>
+Description: This package uses the API of worldwide pollution from the opendatasoft.com for four different countries(Pakistan,Bangladesh,India,Sweden,Aghanistan). It contains two functionallities.The first one compares the value pm5 for every country and represents the results with a bar chart in a Shiny application. With the second function,user can choose a country and the output is the location of the observations in this country showed by a map in Shiny application. 
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.2

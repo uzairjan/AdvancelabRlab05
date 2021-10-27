@@ -1,4 +1,4 @@
 library(testthat)
-library(MyShiny)
+library(PollutionData)
 
-test_check("MyShiny")
+test_check("PollutionData")
