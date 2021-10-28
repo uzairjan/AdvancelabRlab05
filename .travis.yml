@@ -3,4 +3,5 @@
 language: R
 cache: packages
 warnings_are_errors: false
-GIT_SSL_NO_VERIFY: 1
+ignore:
+   tests
