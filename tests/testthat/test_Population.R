@@ -9,27 +9,27 @@ test_that("This application only supports these countries: {'Sweden','Pakistan',
 })
 
 test_that("Number of observations",{
-  worldwide<-PollutionData$new(list("Pakistan","India","Bangladesh","Sweden","Bangladesh","Afghanistan"))
-  expect_equal(worldwide$response_list$Pakistan$nhits==0,FALSE)
-  expect_equal(worldwide$response_list$India$nhits==0,FALSE)
+  pobjc<-PollutionData$new(list("Pakistan","India","Bangladesh","Sweden","Afghanistan"))
+  expect_equal(pobjc$response_list$Pakistan$nhits==0,FALSE)
+  expect_equal(pobjc$response_list$India$nhits==0,FALSE)
 })
 
 
 test_that("Type of data",{
-  worldwide<-PollutionData$new(list("Pakistan","India","Bangladesh","Sweden","Bangladesh","Afghanistan"))
-  expect_true(is.data.frame(worldwide$getOnlySectionData(worldwide$response_list$Pakistan,c("value_pm5","category_pm25"))))
+  pobjc<-PollutionData$new(list("Pakistan","India","Bangladesh","Sweden","Bangladesh","Afghanistan"))
+  expect_true(is.data.frame(pobjc$getOnlySectionData(pobjc$response_list$Pakistan,c("value_pm5","category_pm25"))))
 })
 
 test_that("Parameter should be a  character list",{
-  worldwide<-PollutionData$new(list("Pakistan","India","Bangladesh","Sweden","Bangladesh","Afghanistan"))
-  expect_error(worldwide<-class(a$getAllSectionResponse(c("Turkey"))))
-  expect_error(worldwide<-class(a$getAllSectionResponse(c(5))))
+  pobjc<-PollutionData$new(list("Pakistan","India","Bangladesh","Sweden","Bangladesh","Afghanistan"))
+  expect_error(pobjc<-class(a$getAllSectionResponse(c("Turkey"))))
+  expect_error(pobjc<-class(a$getAllSectionResponse(c(5))))
 })
 
 test_that("select correct data",{
-  worldwide<-PollutionData$new(list("Pakistan","India","Bangladesh","Sweden","Bangladesh","Afghanistan"))
-   worldwide<-PollutionData$new(list("Sweden"))
-   expect_error(worldwide$getAllSectionResponse(facet_vector = list("value_pm5","category_pm25")))
+  pobjc<-PollutionData$new(list("Pakistan","India","Bangladesh","Sweden","Bangladesh","Afghanistan"))
+   pobjc<-PollutionData$new(list("Sweden"))
+   expect_error(pobjc$getAllSectionResponse(sectionVector = list("value_pm5","category_pm25")))
    })
 
 
