@@ -1,7 +1,7 @@
 # shinnyapp package
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.com/uzairjan/AdvancelabRlab05.svg?branch=main)](https://api.travis-ci.com/v3/job/544432897/log.txt)
+[![Travis build status](https://travis-ci.com/uzairjan/AdvancelabRlab05.svg?branch=main)](https://app.travis-ci.com/github/uzairjan/AdvancelabRlab05)
 <!-- badges: end -->
 
 The goal of package is to create a shiny app which will display country air pollution ...

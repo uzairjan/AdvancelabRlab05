@@ -7,3 +7,5 @@ on:
    branch: main
 ignore:
    tests
+before_install:
+  - sudo apt update && sudo apt install libgnutls-openssl27 libgnutls30   

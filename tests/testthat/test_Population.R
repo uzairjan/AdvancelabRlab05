@@ -8,11 +8,11 @@ test_that("This application only supports these countries: {'Sweden','Pakistan',
    expect_error(PollutionData$new(list()))
 })
 
-# test_that("Number of observations",{
-#   pobjc<-PollutionData$new(list("Pakistan","India","Bangladesh","Sweden","Afghanistan"))
-#   expect_equal(pobjc$response_list$Pakistan$nhits==0,FALSE)
-#   expect_equal(pobjc$response_list$India$nhits==0,FALSE)
-# })
+test_that("Number of observations",{
+  pobjc<-PollutionData$new(list("Pakistan","India","Bangladesh","Sweden","Afghanistan"))
+  expect_equal(pobjc$response_list$Pakistan$nhits==0,FALSE)
+  expect_equal(pobjc$response_list$India$nhits==0,FALSE)
+})
 
 
 test_that("Type of data",{
